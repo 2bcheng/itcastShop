@@ -8,8 +8,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.*;
 
+import redis.clients.jedis.Jedis;
 import cn.itcast.shop.utils.CommonUtils;
 import cn.itcast.shop.utils.DataSourceUtils;
+import cn.itcast.shop.utils.JedisUtils;
 import cn.itcast.shop.utils.MailUtils;
 
 /**
@@ -52,4 +54,21 @@ public class CommonTest {
 		String msg = "这是一封激活邮件，请<a href='user?method=激活'>点击</a>进行激活";
 		MailUtils.sendMail("884024720@qq.com", "bbb","71a3a933353347a4bcacff699e6baa9c950a02f6b84e4f6fb8404ca06febfd6f");
 	}
+	@Test
+	public  void  testJedis(){
+		Jedis jedis=JedisUtils.getJedis();
+		System.out.println(jedis.get("xxx"));
+	}
+	
+	
+	  public static void main(String args[]){
+	        Logger Log = LogManager.getLogger(CommonTest.class.getName());
+	        Log.info("this is the info");
+	        Log.warn("this is the warn info");
+	        Log.error("this is the error info");
+	        Log.fatal("this is the fatal info");
+	        Log.trace("enter Main.test()");
+	        //new Main().test();
+	        Log.trace("exit Main.test()");
+	    }
 }

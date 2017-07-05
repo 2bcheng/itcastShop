@@ -1,89 +1,29 @@
 package cn.itcast.shop.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Product  implements Serializable  {
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((cid == null) ? 0 : cid.hashCode());
-		result = prime * result + ((is_hot == null) ? 0 : is_hot.hashCode());
-		result = prime * result
-				+ ((market_price == null) ? 0 : market_price.hashCode());
-		result = prime * result + ((pdate == null) ? 0 : pdate.hashCode());
-		result = prime * result + ((pdesc == null) ? 0 : pdesc.hashCode());
-		result = prime * result + ((pflag == null) ? 0 : pflag.hashCode());
-		result = prime * result + ((pid == null) ? 0 : pid.hashCode());
-		result = prime * result + ((pimage == null) ? 0 : pimage.hashCode());
-		result = prime * result + ((pname == null) ? 0 : pname.hashCode());
-		result = prime * result
-				+ ((shop_price == null) ? 0 : shop_price.hashCode());
-		return result;
+	public Product() {
+		super();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		if (cid == null) {
-			if (other.cid != null)
-				return false;
-		} else if (!cid.equals(other.cid))
-			return false;
-		if (is_hot == null) {
-			if (other.is_hot != null)
-				return false;
-		} else if (!is_hot.equals(other.is_hot))
-			return false;
-		if (market_price == null) {
-			if (other.market_price != null)
-				return false;
-		} else if (!market_price.equals(other.market_price))
-			return false;
-		if (pdate == null) {
-			if (other.pdate != null)
-				return false;
-		} else if (!pdate.equals(other.pdate))
-			return false;
-		if (pdesc == null) {
-			if (other.pdesc != null)
-				return false;
-		} else if (!pdesc.equals(other.pdesc))
-			return false;
-		if (pflag == null) {
-			if (other.pflag != null)
-				return false;
-		} else if (!pflag.equals(other.pflag))
-			return false;
-		if (pid == null) {
-			if (other.pid != null)
-				return false;
-		} else if (!pid.equals(other.pid))
-			return false;
-		if (pimage == null) {
-			if (other.pimage != null)
-				return false;
-		} else if (!pimage.equals(other.pimage))
-			return false;
-		if (pname == null) {
-			if (other.pname != null)
-				return false;
-		} else if (!pname.equals(other.pname))
-			return false;
-		if (shop_price == null) {
-			if (other.shop_price != null)
-				return false;
-		} else if (!shop_price.equals(other.shop_price))
-			return false;
-		return true;
+	public Product(String pid, String pname, Double market_price,
+			Double shop_price, String pimage, Date pdate, Long is_hot,
+			String pdesc, Long pflag, Category category) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+		this.market_price = market_price;
+		this.shop_price = shop_price;
+		this.pimage = pimage;
+		this.pdate = pdate;
+		this.is_hot = is_hot;
+		this.pdesc = pdesc;
+		this.pflag = pflag;
+		this.category = category;
 	}
 
 	@Override
@@ -91,13 +31,8 @@ public class Product  implements Serializable  {
 		return "Product [pid=" + pid + ", pname=" + pname + ", market_price="
 				+ market_price + ", shop_price=" + shop_price + ", pimage="
 				+ pimage + ", pdate=" + pdate + ", is_hot=" + is_hot
-				+ ", pdesc=" + pdesc + ", pflag=" + pflag + ", cid=" + cid
-				+ "]";
-	}
-
-	public Product() {
-		super();
-		// TODO Auto-generated constructor stub
+				+ ", pdesc=" + pdesc + ", pflag=" + pflag + ", category="
+				+ category + "]";
 	}
 
 	private String pid;
@@ -109,7 +44,7 @@ public class Product  implements Serializable  {
 	private Long is_hot;
 	private String pdesc;
 	private Long pflag;
-	private String cid;
+	private Category category;
 
 	public String getPid() {
 		return pid;
@@ -183,11 +118,12 @@ public class Product  implements Serializable  {
 		this.pflag = pflag;
 	}
 
-	public String getCid() {
-		return cid;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCid(String cid) {
-		this.cid = cid;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
+
 }

@@ -6,5 +6,5 @@ import java.util.List;
 import cn.itcast.shop.domain.Category;
 
 public interface CategoryService {
-	List<Category> getAll() throws SQLException;
+	List<Category> getAll() ;
 }
