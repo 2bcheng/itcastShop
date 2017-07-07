@@ -31,6 +31,9 @@
 					if (!data.isTrue) {
 						$("#checkMsg").html("验证码不正确,请重新输入");
 							$("input[type='submit']").attr("disabled","true");
+					}else{
+						$("#checkMsg").html("");
+						$("input[type='submit']").removeAttr("disabled");
 					}
 				}
 

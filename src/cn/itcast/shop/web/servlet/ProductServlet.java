@@ -1,34 +1,39 @@
 package cn.itcast.shop.web.servlet;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.MidiDevice.Info;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.alibaba.fastjson.JSON;
 
 import cn.itcast.shop.domain.Cart;
 import cn.itcast.shop.domain.CartItem;
 import cn.itcast.shop.domain.Category;
+import cn.itcast.shop.domain.Orders;
 import cn.itcast.shop.domain.PageBean;
 import cn.itcast.shop.domain.Product;
 import cn.itcast.shop.service.CategoryService;
+import cn.itcast.shop.service.OrderService;
 import cn.itcast.shop.service.ProductService;
 import cn.itcast.shop.service.impl.CategoryServiceImpl;
+import cn.itcast.shop.service.impl.OrderServiceImpl;
 import cn.itcast.shop.service.impl.ProductServiceImpl;
+import cn.itcast.shop.utils.PaymentUtil;
+
+import com.alibaba.fastjson.JSON;
 
 public class ProductServlet extends BaseServlet {
 

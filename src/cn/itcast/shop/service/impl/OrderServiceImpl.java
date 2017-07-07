@@ -17,6 +17,7 @@ public class OrderServiceImpl implements OrderService {
 			DataSourceUtils.startTransaction();
 			orderDao.addOrders(order);
 			orderDao.addOrderItems(order);
+			DataSourceUtils.commit();
 		} catch (SQLException e) {
 			try {
 				DataSourceUtils.rollBack();
@@ -25,11 +26,31 @@ public class OrderServiceImpl implements OrderService {
 			}
 			e.printStackTrace();
 		} finally {
-				try {
-					DataSourceUtils.closeConn();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			try {
+				DataSourceUtils.closeConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void updateOrders(Orders orders) {
+		OrderDao dao = new OrderDaoImpl();
+		try {
+			dao.updateOrders(orders);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void updateStateByOid(String r6_Order) {
+		OrderDao dao = new OrderDaoImpl();
+		try {
+			dao.updateStateByOid(r6_Order);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

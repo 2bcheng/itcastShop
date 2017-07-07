@@ -10,4 +10,8 @@ public interface OrderDao {
 
 	public void addOrders(Orders order) throws SQLException;
 
+	public void updateOrders(Orders orders) throws SQLException;
+
+	public  void  updateStateByOid(String oid)  throws  SQLException;
+
 }

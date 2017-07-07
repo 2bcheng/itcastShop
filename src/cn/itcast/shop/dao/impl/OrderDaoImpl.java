@@ -37,4 +37,22 @@ public class OrderDaoImpl implements OrderDao {
 				order.getTotal(), order.getState(), order.getAddress(),
 				order.getName(), order.getTelephone(), order.getUser().getUid());
 	}
+
+	@Override
+	public void updateOrders(Orders orders) throws SQLException {
+		QueryRunner queryRunner = new QueryRunner(
+				DataSourceUtils.getDataSource());
+		String sql = "update  orders  set address=?,name=?,telephone=? where oid=?";
+		queryRunner.update(sql, orders.getAddress(), orders.getName(),
+				orders.getTelephone(), orders.getOid());
+
+	}
+
+	@Override
+	public void updateStateByOid(String oid) throws SQLException {
+		QueryRunner queryRunner = new QueryRunner(
+				DataSourceUtils.getDataSource());
+		String sql = "update  orders  set state= 1  where oid=?";
+		queryRunner.update(sql, oid);
+	}
 }
