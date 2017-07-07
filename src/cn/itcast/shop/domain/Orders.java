@@ -1,18 +1,31 @@
 package cn.itcast.shop.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Orders  implements  Serializable {
+public class Orders implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String oid;
-	private Date ordertime;
-	private Double total;
-	private int state;
-	private String address;
-	private String name;
-	private String telephone;
-	private String uid;
+	private String oid;// 订单id
+	private Date ordertime;// 订单时间
+	private Double total;// 订单金额
+	private int state;// 订单状态1付款,0未付款
+	private String address;// 订单地址
+	private String name;// 收件人
+	private String telephone;// 收件人联系电话
+	public List<Orderitem> getOrderitems() {
+		return orderitems;
+	}
+
+	public void setOrderitems(List<Orderitem> orderitems) {
+		this.orderitems = orderitems;
+	}
+
+	private User user;// 所属用户
+
+	// 所属订单项目
+	private List<Orderitem> orderitems = new ArrayList<Orderitem>();
 
 	public String getOid() {
 		return oid;
@@ -26,8 +39,8 @@ public class Orders  implements  Serializable {
 	public String toString() {
 		return "Orders [oid=" + oid + ", ordertime=" + ordertime + ", total="
 				+ total + ", state=" + state + ", address=" + address
-				+ ", name=" + name + ", telephone=" + telephone + ", uid="
-				+ uid + "]";
+				+ ", name=" + name + ", telephone=" + telephone + ", user="
+				+ user + "]";
 	}
 
 	public Orders() {
@@ -36,7 +49,7 @@ public class Orders  implements  Serializable {
 	}
 
 	public Orders(String oid, Date ordertime, Double total, int state,
-			String address, String name, String telephone, String uid) {
+			String address, String name, String telephone, User user) {
 		super();
 		this.oid = oid;
 		this.ordertime = ordertime;
@@ -45,15 +58,11 @@ public class Orders  implements  Serializable {
 		this.address = address;
 		this.name = name;
 		this.telephone = telephone;
-		this.uid = uid;
+		this.user = user;
 	}
 
 	public Date getOrdertime() {
 		return ordertime;
-	}
-
-	public void setOrdertime(java.sql.Timestamp ordertime) {
-		this.ordertime = ordertime;
 	}
 
 	public Double getTotal() {
@@ -96,78 +105,16 @@ public class Orders  implements  Serializable {
 		this.telephone = telephone;
 	}
 
-	public String getUid() {
-		return uid;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((oid == null) ? 0 : oid.hashCode());
-		result = prime * result
-				+ ((ordertime == null) ? 0 : ordertime.hashCode());
-		result = prime * result + state;
-		result = prime * result
-				+ ((telephone == null) ? 0 : telephone.hashCode());
-		result = prime * result + ((total == null) ? 0 : total.hashCode());
-		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
-		return result;
+	public void setOrdertime(Date ordertime) {
+		this.ordertime = ordertime;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Orders other = (Orders) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (oid == null) {
-			if (other.oid != null)
-				return false;
-		} else if (!oid.equals(other.oid))
-			return false;
-		if (ordertime == null) {
-			if (other.ordertime != null)
-				return false;
-		} else if (!ordertime.equals(other.ordertime))
-			return false;
-		if (state != other.state)
-			return false;
-		if (telephone == null) {
-			if (other.telephone != null)
-				return false;
-		} else if (!telephone.equals(other.telephone))
-			return false;
-		if (total == null) {
-			if (other.total != null)
-				return false;
-		} else if (!total.equals(other.total))
-			return false;
-		if (uid == null) {
-			if (other.uid != null)
-				return false;
-		} else if (!uid.equals(other.uid))
-			return false;
-		return true;
-	}
-	
 }

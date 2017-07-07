@@ -11,7 +11,18 @@
 <script src="js/bootstrap.min.js" type="text/javascript"></script>
 <!-- 引入自定义css文件 style.css -->
 <link rel="stylesheet" href="css/style.css" type="text/css" />
-
+<script type="text/javascript">
+	function addCart() {
+		var buyNum = $("#quantity").val();
+		if (buyNum < 1) {
+			alert("购买数量最少为1");
+			return false;
+		} else {
+			location.href = "${pageContext.request.contextPath }/product?method=addProductToCart&pid=${product.pid}&buyNum="
+					+ buyNum;
+		}
+	}
+</script>
 <style>
 body {
 	margin-top: 20px;
@@ -33,8 +44,8 @@ body {
 		<div class="row">
 			<div
 				style="border: 1px solid #e4e4e4; width: 930px; margin-bottom: 10px; margin: 0 auto; padding: 10px; margin-bottom: 10px;">
-				<a href="${pageContext.request.contextPath}/default.jsp">首页&nbsp;&nbsp;&gt;</a> <a href="./蔬菜分类.htm">蔬菜&nbsp;&nbsp;&gt;</a>
-				<a>无公害蔬菜</a>
+				<a href="${pageContext.request.contextPath}/default.jsp">首页&nbsp;&nbsp;&gt;</a>
+				<a href="./蔬菜分类.htm">蔬菜&nbsp;&nbsp;&gt;</a> <a>无公害蔬菜</a>
 			</div>
 
 			<div style="margin: 0 auto; width: 950px;">
@@ -54,7 +65,8 @@ body {
 					</div>
 
 					<div style="margin: 10px 0 10px 0;">
-						亿家价: <strong style="color: #ef0101;">￥：${product.shop_price }元/份</strong> 参 考 价：
+						亿家价: <strong style="color: #ef0101;">￥：${product.shop_price }元/份</strong>
+						参 考 价：
 						<del>￥${product.market_price }元/份</del>
 					</div>
 
@@ -74,7 +86,7 @@ body {
 						</div>
 
 						<div style="margin: 20px 0 10px 0;; text-align: center;">
-							<a href="cart.htm"> <input
+							<a href="javascript:void(0)" onclick="addCart()" id="add"> <input
 								style="background: url('./images/product.gif') no-repeat scroll 0 -600px rgba(0, 0, 0, 0); height: 36px; width: 127px;"
 								value="加入购物车" type="button">
 							</a> &nbsp;收藏商品
@@ -90,8 +102,7 @@ body {
 				</div>
 
 				<div>
-					<img
-							src="${pageContext.request.contextPath }/${product.pimage}">
+					<img src="${pageContext.request.contextPath }/${product.pimage}">
 				</div>
 
 				<div

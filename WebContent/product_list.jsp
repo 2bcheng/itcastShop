@@ -104,11 +104,14 @@ body {
 		<div style="clear: both;"></div>
 
 		<div style="overflow: hidden;">
-
+			
 			<ul style="list-style: none;">
-				<li
-					style="width: 150px; height: 216; float: left; margin: 0 8px 0 0; padding: 0 18px 15px; text-align: center;"><img
-					src="products/1/cs10001.jpg" width="130px" height="130px" /></li>
+			<c:forEach  items="${historyList }"    var="pro">				<li
+					style="width: 150px; height: 216; float: left; margin: 0 8px 0 0; padding: 0 18px 15px; text-align: center;">
+					
+					<a href="${pageContext.request.contextPath }/product?method=productByPid&pid=${pro.pid}"><img
+					src="${pageContext.request.contextPath}/${pro.pimage}" width="130px" height="130px" /></a></li></c:forEach>
+					
 			</ul>
 
 		</div>

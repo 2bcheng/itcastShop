@@ -18,9 +18,7 @@
 	href="${pageContext.request.contextPath}/css/style.css" type="text/css" />
 
 <script type="text/javascript">
-	function loginCheck() {
 
-	}
 	$(function() {
 		$("#checkCode1").blur(function() {//绑定光标移除事件
 			$.ajax({//使用ajax

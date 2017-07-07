@@ -11,6 +11,7 @@ public class UserServiceImpl implements UserService {
 
 	UserDao userDao = new UserDaoImpl();
 
+	// 注册
 	@Override
 	public boolean register(User user) {
 		int row = 0;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
 		return row > 0 ? true : false;
 	}
 
+	// 登录
 	@Override
 	public User login(String username, String password) {
 
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	// 验证
 	@Override
 	public boolean checkUser(String username) throws SQLException {
 		User user = null;
@@ -39,10 +42,11 @@ public class UserServiceImpl implements UserService {
 		return user == null ? false : true;
 	}
 
+	// 激活
 	@Override
 	public boolean active(String userName, String code) throws SQLException {
-		 
-		return userDao.active(userName, code)>0?true:false;
+
+		return userDao.active(userName, code) > 0 ? true : false;
 	}
 
 }

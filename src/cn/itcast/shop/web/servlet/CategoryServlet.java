@@ -36,6 +36,7 @@ public class CategoryServlet extends BaseServlet {
 			List<Category> list = null;
 			list = categoryService.getAll();
 			categoryListToJson = JSON.toJSONString(list);
+			jedis.set("categoryListJson", categoryListToJson);
 		}
 		log.info(categoryListToJson);
 		response.setContentType("text/html;charset=UTF-8");
