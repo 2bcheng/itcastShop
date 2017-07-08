@@ -22,4 +22,16 @@ public class CategoryServiceImpl implements CategoryService {
 		return list;
 	}
 
+	@Override
+	public Category findCategoryByCid(String cid) {
+		CategoryDao  dao=new CategoryDaoImpl();
+		Category  category=null;
+		try {
+			category=dao.findCategoryByCid(cid);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return category;
+	}
+
 }

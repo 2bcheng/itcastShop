@@ -35,12 +35,14 @@ public class Orders implements Serializable {
 		this.oid = oid;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "Orders [oid=" + oid + ", ordertime=" + ordertime + ", total="
 				+ total + ", state=" + state + ", address=" + address
 				+ ", name=" + name + ", telephone=" + telephone + ", user="
-				+ user + "]";
+				+ user + ", orderitems=" + orderitems + "]";
 	}
 
 	public Orders() {

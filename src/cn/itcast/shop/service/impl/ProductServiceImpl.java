@@ -36,16 +36,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public PageBean<Product> findproductsByCid(String cid,int currentPage,int  currentCount) {
+	public PageBean<Product> findproductsByCid(String cid, int currentPage,
+			int currentCount) {
 
 		ProductDao productDao = new ProductDaoImpl();
 
 		// 封装一个pageBean返回web层
 		PageBean<Product> pageBean = new PageBean<Product>();
-		if(currentPage==0)
+		if (currentPage == 0)
 			currentPage = 1;
-		if(currentCount==0) 
-		currentCount = 12;
+		if (currentCount == 0)
+			currentCount = 12;
 		// 封装当前页
 		pageBean.setCurrentCount(currentCount);
 		// 封装当前页显示条数
@@ -69,15 +70,15 @@ public class ProductServiceImpl implements ProductService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		//封装数据
+		// 封装数据
 		pageBean.setList(list);
 		return pageBean;
 	}
 
 	@Override
 	public Product findProductByPid(String pid) {
-		ProductDao  productDao=new ProductDaoImpl();
-		Product p=null;
+		ProductDao productDao = new ProductDaoImpl();
+		Product p = null;
 		try {
 			p = productDao.findProductByPid(pid);
 		} catch (SQLException e) {
@@ -85,6 +86,18 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 		}
 		return p;
+	}
+
+	@Override
+	public List<Product> getAllProducts() {
+		ProductDao productDao = new ProductDaoImpl();
+		List<Product> list = null;
+		try {
+			list = productDao.getAllProducts();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 }

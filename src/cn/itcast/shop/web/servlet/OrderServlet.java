@@ -2,7 +2,10 @@ package cn.itcast.shop.web.servlet;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Map.Entry;
@@ -20,6 +23,8 @@ import cn.itcast.shop.domain.Cart;
 import cn.itcast.shop.domain.CartItem;
 import cn.itcast.shop.domain.Orderitem;
 import cn.itcast.shop.domain.Orders;
+import cn.itcast.shop.domain.PageBean;
+import cn.itcast.shop.domain.Product;
 import cn.itcast.shop.domain.User;
 import cn.itcast.shop.service.OrderService;
 import cn.itcast.shop.service.impl.OrderServiceImpl;
@@ -28,6 +33,108 @@ import cn.itcast.shop.utils.PaymentUtil;
 
 public class OrderServlet extends BaseServlet {
 	private Logger log = LogManager.getLogger(OrderServlet.class);
+
+	public void myOrders(HttpServletRequest request,
+			HttpServletResponse response) throws IOException, ServletException {
+
+		// 判断用户是否登录
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		if (user == null) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+
+		String strCurrentPage = request.getParameter("currentPage");
+		// 当前页数
+		int currentPage = 1;
+		if (strCurrentPage.length() > 0) {
+			currentPage = Integer.parseInt(strCurrentPage);
+		}
+		// 当前页面显示条数
+		int currentCount = 6;
+
+		OrderService service = new OrderServiceImpl();
+
+		// 获取订单
+		List<Orders> orderList = new ArrayList<Orders>();
+		// 获取当前用户所有的订单
+
+		PageBean<Orders> pageBean = service.findOrdersByUid(user.getUid(),
+				currentPage, currentCount);
+		orderList = service.findOrdersByUid(user.getUid());
+
+		log.info("当前servlet:myOrders,用来查询用户所属的订单" + orderList);
+		// 订单不为空
+		// if (orderList != null) {
+		// // 循环迭代订单根据订单号获取所有订单项
+		// for (Orders order : orderList) {
+		// // 获取数据库中,属于当前订单的所有订单项目
+		// List<Map<String, Object>> orderItems = service
+		// .findOrderItemsByOid(order.getOid());
+		// log.info("当前servlet:myOrders,用来查询用户所属的订单的订单项目" + orderItems);
+		// for (Map<String, Object> map : orderItems) {
+		// try {
+		// // 从map中读取数据封装到orderItem对象中
+		// Orderitem orderitem = new Orderitem();
+		// BeanUtils.populate(orderitem, map);
+		// log.info("当前servlet:myOrders,用来封装用户所属订单的订单项目"
+		// + orderItems);
+		// // 从map中读取数据封装到product对象中
+		// Product p = new Product();
+		// BeanUtils.populate(p, map);
+		// log.info("当前servlet:myOrders,用来查询用户所属的订单的订单商品" + p);
+		// // 添加商品到购物项目
+		// orderitem.setProduct(p);
+		// // 添加购物项到订单
+		// order.getOrderitems().add(orderitem);
+		// } catch (IllegalAccessException e) {
+		// e.printStackTrace();
+		// } catch (InvocationTargetException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// }
+		// }
+		
+		// 分页订单不为空
+		if (pageBean != null) {
+			// 循环迭代订单根据订单号获取所有订单项
+			for (Orders order : pageBean.getList()) {
+				// 获取数据库中,属于当前订单的所有订单项目
+				List<Map<String, Object>> orderItems = service
+						.findOrderItemsByOid(order.getOid());
+				log.info("当前servlet:myOrders,用来查询用户所属的订单的订单项目" + orderItems);
+				for (Map<String, Object> map : orderItems) {
+					try {
+						// 从map中读取数据封装到orderItem对象中
+						Orderitem orderitem = new Orderitem();
+						BeanUtils.populate(orderitem, map);
+						log.info("当前servlet:myOrders,用来封装用户所属订单的订单项目"
+								+ orderItems);
+						// 从map中读取数据封装到product对象中
+						Product p = new Product();
+						BeanUtils.populate(p, map);
+						log.info("当前servlet:myOrders,用来查询用户所属的订单的订单商品" + p);
+						// 添加商品到购物项目
+						orderitem.setProduct(p);
+						// 添加购物项到订单
+						order.getOrderitems().add(orderitem);
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		log.info("展示的数据" + orderList);
+		request.setAttribute("pageBean", pageBean);
+		log.info("分页bean的数据" + pageBean);
+		request.setAttribute("orderList", orderList);
+		request.getRequestDispatcher("/order_list.jsp").forward(request,
+				response);
+	}
 
 	// 更新收件人收件地址,以及联系电话
 

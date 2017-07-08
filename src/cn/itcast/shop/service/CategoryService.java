@@ -7,4 +7,6 @@ import cn.itcast.shop.domain.Category;
 
 public interface CategoryService {
 	List<Category> getAll() ;
+
+	Category findCategoryByCid(String cid);
 }

@@ -16,4 +16,6 @@ public interface ProductDao {
 			int currentCount) throws SQLException;
 
 	public Product findProductByPid(String pid) throws SQLException;
+
+	public List<Product> getAllProducts() throws SQLException;
 }

@@ -7,7 +7,8 @@
 	</HEAD>
 	
 	<body>
-		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/adminCategory_update.action" method="post">
+		<form id="userAction_save_do" name="Form1" action="${pageContext.request.contextPath}/adminCategory?method=update" method="post">
+		<input type="hidden" value="${cate.cid }" name="cid">
 			&nbsp;
 			<table cellSpacing="1" cellPadding="5" width="100%" align="center" bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
 				<tr>
@@ -23,14 +24,14 @@
 						分类名称：
 					</td>
 					<td class="ta_01" bgColor="#ffffff" colspan="3">
-						<input type="text" name="cname" value="" id="userAction_save_do_logonName" class="bg"/>
+						<input type="text" name="cname" value="${cate.cname }" id="userAction_save_do_logonName" class="bg"/>
 					</td>
 				</tr>
 			
 				<tr>
 					<td class="ta_01" style="WIDTH: 100%" align="center"
 						bgColor="#f5fafe" colSpan="4">
-						<button type="submit" id="userAction_save_do_submit" value="确定" class="button_ok">
+						<button type="submit" id="" value="确定" class="button_ok">
 							&#30830;&#23450;
 						</button>
 

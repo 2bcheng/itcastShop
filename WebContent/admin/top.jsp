@@ -3,6 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Language" content="zh-cn">
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="${pageContext.request .contextPath}/js/jquery-1.11.3.min.jsƒ®"></script>
 		<style type="text/css">
 BODY {
 	MARGIN: 0px;

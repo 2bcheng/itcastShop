@@ -51,8 +51,15 @@ public class ProductDaoImpl implements ProductDao {
 	public Product findProductByPid(String pid) throws SQLException {
 		String sql = "select  *  from  product  where pid=?";
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
-		
-		return qr.query(sql, new BeanHandler<Product>(Product.class),pid);
+
+		return qr.query(sql, new BeanHandler<Product>(Product.class), pid);
+	}
+
+	@Override
+	public List<Product> getAllProducts() throws SQLException {
+		String sql = "select  *  from  product  ";
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		return qr.query(sql, new BeanListHandler<Product>(Product.class));
 	}
 
 }

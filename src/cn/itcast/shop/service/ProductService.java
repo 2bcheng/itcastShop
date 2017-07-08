@@ -15,4 +15,6 @@ public interface ProductService {
 
 	Product findProductByPid(String pid);
 
+	List<Product> getAllProducts();
+
 }

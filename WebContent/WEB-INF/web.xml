@@ -113,4 +113,14 @@
     <servlet-name>CallbackServlet</servlet-name>
     <url-pattern>/callback</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AdminServlet</display-name>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>cn.itcast.shop.web.servlet.AdminServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/adminService</url-pattern>
+  </servlet-mapping>
 </web-app>

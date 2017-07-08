@@ -12,7 +12,7 @@ public class Product  implements Serializable  {
 
 	public Product(String pid, String pname, Double market_price,
 			Double shop_price, String pimage, Date pdate, Long is_hot,
-			String pdesc, Long pflag, Category category) {
+			String pdesc, Long pflag, String cid) {
 		super();
 		this.pid = pid;
 		this.pname = pname;
@@ -23,7 +23,7 @@ public class Product  implements Serializable  {
 		this.is_hot = is_hot;
 		this.pdesc = pdesc;
 		this.pflag = pflag;
-		this.category = category;
+		this.cid = cid;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class Product  implements Serializable  {
 				+ market_price + ", shop_price=" + shop_price + ", pimage="
 				+ pimage + ", pdate=" + pdate + ", is_hot=" + is_hot
 				+ ", pdesc=" + pdesc + ", pflag=" + pflag + ", category="
-				+ category + "]";
+				+ cid + "]";
 	}
 
 	private String pid;
@@ -44,7 +44,7 @@ public class Product  implements Serializable  {
 	private Long is_hot;
 	private String pdesc;
 	private Long pflag;
-	private Category category;
+	private String cid;
 
 	public String getPid() {
 		return pid;
@@ -118,12 +118,12 @@ public class Product  implements Serializable  {
 		this.pflag = pflag;
 	}
 
-	public Category getCategory() {
-		return category;
+	public String getCategory() {
+		return cid;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory(String cid) {
+		this.cid = cid;
 	}
 
 }

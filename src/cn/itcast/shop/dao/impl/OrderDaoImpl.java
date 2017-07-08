@@ -3,8 +3,12 @@ package cn.itcast.shop.dao.impl;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import cn.itcast.shop.dao.OrderDao;
 import cn.itcast.shop.domain.Orderitem;
@@ -54,5 +58,35 @@ public class OrderDaoImpl implements OrderDao {
 				DataSourceUtils.getDataSource());
 		String sql = "update  orders  set state= 1  where oid=?";
 		queryRunner.update(sql, oid);
+	}
+
+	@Override
+	public List<Orders> findOrdersByUid(String uid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql = "select  *  from  orders  where  uid=? ";
+
+		return qr.query(sql, new BeanListHandler<Orders>(Orders.class), uid);
+	}
+	public List<Orders> findOrdersByUid(String uid,int index,int  currentCount) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql = "select  *  from  orders  where  uid=?  limit ?,?";
+
+		return qr.query(sql, new BeanListHandler<Orders>(Orders.class), uid,index,currentCount);
+	}
+
+	@Override
+	public List<Map<String, Object>> findOrderItemsByOid(String oid)
+			throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql = "select  count,subtotal,pimage,pname,shop_price  from  orderitem o,product p  where  o.pid=p.pid  and  o.oid=?";
+		return qr.query(sql, new MapListHandler(), oid);
+	}
+
+	@Override
+	public int getAll(String uid) throws SQLException {
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		String sql = "select  count(*)  from  orders  where uid=?";
+		Long  count=(Long) qr.query(sql, new  ScalarHandler(),uid);
+		return count.intValue();
 	}
 }
