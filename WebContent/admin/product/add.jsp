@@ -9,11 +9,15 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
-	$(function() {
-		$.post('', '', function(data) {
-
-		}, "json");
-	})
+	$(
+			function() {
+				$
+						.post(
+								'${pageContext.request.contextPath}/category?method=getAll',
+								'', function(data) {
+									alert(data);
+								}, "json");
+			})
 </script>
 
 <body>
