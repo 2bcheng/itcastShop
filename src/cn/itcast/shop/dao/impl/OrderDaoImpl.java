@@ -89,4 +89,11 @@ public class OrderDaoImpl implements OrderDao {
 		Long  count=(Long) qr.query(sql, new  ScalarHandler(),uid);
 		return count.intValue();
 	}
+
+	public List<Orders> getAll() throws SQLException {
+		QueryRunner queryRunner=new QueryRunner(DataSourceUtils.getDataSource());
+		String  sql="select  * from  orders";
+		
+		return   queryRunner.query(sql, new  BeanListHandler<Orders>(Orders.class));
+	}
 }

@@ -106,7 +106,7 @@ public class ProductDaoImpl implements ProductDao {
 		if (list.size() > 0) {
 
 			return qr.query(sb.toString(), new BeanListHandler<Product>(
-					Product.class), list.toArray(),index, currentCount);
+					Product.class),name,index, currentCount);
 		} else {
 
 			return qr.query(sb.toString(), new BeanListHandler<Product>(

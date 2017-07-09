@@ -103,25 +103,33 @@ public class OrderServiceImpl implements OrderService {
 		// 获取当前页面
 		if (currentPage == 0)
 			currentPage = 1;
-		//当前页数据
+		// 当前页数据
 		int index = (currentPage - 1) * currentCount;
-		
-		//总页数
-		int  total=(int) Math.ceil(1.0*count/currentCount);
-		
+
+		// 总页数
+		int total = (int) Math.ceil(1.0 * count / currentCount);
+
 		pageBean.setCurrentCount(currentCount);
 		pageBean.setCurrentPage(currentPage);
 		pageBean.setTotalCount(count);
 		pageBean.setTotalPage(total);
-		
-		
+
 		try {
-			orders = dao.findOrdersByUid(uid,index,currentCount);
+			orders = dao.findOrdersByUid(uid, index, currentCount);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		pageBean.setList(orders);
 		return pageBean;
+	}
+
+	public List<Orders> getAllOrders() {
+		try {
+			return new OrderDaoImpl().getAll();
+		} catch (SQLException e) {
+
+			throw new RuntimeException(e);
+		}
 	}
 
 }

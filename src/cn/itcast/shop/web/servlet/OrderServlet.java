@@ -129,8 +129,8 @@ public class OrderServlet extends BaseServlet {
 //			}
 //		}
 		log.info("展示的数据" + orderList);
-		request.setAttribute("pageBean", pageBean);
-		log.info("分页bean的数据" + pageBean);
+//		request.setAttribute("pageBean", pageBean);
+//		log.info("分页bean的数据" + pageBean);
 		request.setAttribute("orderList", orderList);
 		request.getRequestDispatcher("/order_list.jsp").forward(request,
 				response);

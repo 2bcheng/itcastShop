@@ -22,22 +22,49 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.alibaba.fastjson.JSON;
+
 import cn.itcast.shop.domain.Category;
+import cn.itcast.shop.domain.Orders;
 import cn.itcast.shop.domain.PageBean;
 import cn.itcast.shop.domain.Product;
 import cn.itcast.shop.service.CategoryService;
 import cn.itcast.shop.service.ProductService;
 import cn.itcast.shop.service.impl.CategoryServiceImpl;
+import cn.itcast.shop.service.impl.OrderServiceImpl;
 import cn.itcast.shop.service.impl.ProductServiceImpl;
 
 public class AdminServlet extends BaseServlet {
 	private Logger log = LogManager.getLogger(AdminServlet.class);
 
+	public void findOrderInfoByOid(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String oid = request.getParameter("oid");
+		List<Map<String, Object>> list = new OrderServiceImpl()
+				.findOrderItemsByOid(oid);
+
+	
+		  String jsonString = JSON.toJSONString(list);
+		  response.setContentType("text/html;charset=utf-8");
+		  response.getWriter().write(jsonString);
+	}
+
+	public void getAllOrders(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+
+		List<Orders> orders = new OrderServiceImpl().getAllOrders();
+
+		request.setAttribute("orders", orders);
+		request.getRequestDispatcher("/admin/order/list.jsp").forward(request,
+				response);
+
+	}
+
 	public void updateProduct(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		Product p=new  Product();
+		Product p = new Product();
 		try {
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload fileUpload = new ServletFileUpload(factory);
@@ -45,21 +72,20 @@ public class AdminServlet extends BaseServlet {
 
 			for (FileItem item : parseRequest) {
 				if (item.isFormField()) {
-						String fieldName = item.getFieldName();
-						String fieldValue = item.getString("utf-8");
-						map.put(fieldName, fieldValue);
+					String fieldName = item.getFieldName();
+					String fieldValue = item.getString("utf-8");
+					map.put(fieldName, fieldValue);
 				} else {
 					String name = item.getName();
 					String path = this.getServletContext()
 							.getRealPath("upload");
 					InputStream in = item.getInputStream();
-					OutputStream out = new FileOutputStream(path + "/"
-							+ name);
+					OutputStream out = new FileOutputStream(path + "/" + name);
 					IOUtils.copy(in, out);
 					in.close();
 					out.close();
 					item.delete();
-					map.put("piamge", "upload/"+name);
+					map.put("piamge", "upload/" + name);
 
 				}
 
@@ -72,7 +98,7 @@ public class AdminServlet extends BaseServlet {
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		//商品实体类赋值完成,不完成daosql更新语句
+		// 商品实体类赋值完成,不完成daosql更新语句
 	}
 
 	public void edit(HttpServletRequest request, HttpServletResponse response)
