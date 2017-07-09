@@ -100,4 +100,47 @@ public class ProductServiceImpl implements ProductService {
 		return list;
 	}
 
+	@Override
+	public int add(Product product) {
+		ProductDao dao = new ProductDaoImpl();
+		try {
+			return dao.add(product);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
+	@Override
+	public PageBean<Product> getAllProducts(int currentCount, int currentPage,Product product) {
+		ProductDao dao = new ProductDaoImpl();
+		PageBean<Product> pageBean = new  PageBean<Product>();
+		if (currentCount == 0)
+			currentCount = 12;
+		if (currentPage == 0)
+			currentPage = 1;
+		int totalCount = 0;
+		try {
+			totalCount = dao.getCount();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		int totalPage = (int) Math.ceil(1.0 * totalCount / currentCount);
+		int index = (currentPage - 1) * currentCount;
+		pageBean.setCurrentCount(currentCount);
+		pageBean.setCurrentPage(currentPage);
+		pageBean.setTotalPage(totalPage);
+		pageBean.setTotalCount(totalCount);
+		
+		try {
+			pageBean.setList(dao.getAllProducts(index, currentCount,product));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return pageBean;
+	}
+
 }

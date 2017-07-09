@@ -17,6 +17,7 @@ public class BaseServlet extends HttpServlet {
 
 			String methodname = request.getParameter("method");
 			Class clazz = this.getClass();
+			System.out.println(methodname);
 			Method method = clazz.getMethod(methodname,
 					HttpServletRequest.class, HttpServletResponse.class);
 			method.invoke(this, request, response);

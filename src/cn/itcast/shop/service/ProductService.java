@@ -17,4 +17,8 @@ public interface ProductService {
 
 	List<Product> getAllProducts();
 
+	int add(Product product);
+
+	PageBean<Product> getAllProducts(int currentCount, int currentPage,Product product);
+
 }

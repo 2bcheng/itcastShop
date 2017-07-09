@@ -1,6 +1,7 @@
 package cn.itcast.shop.dao.impl;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.dbutils.QueryRunner;
@@ -60,6 +61,58 @@ public class ProductDaoImpl implements ProductDao {
 		String sql = "select  *  from  product  ";
 		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
 		return qr.query(sql, new BeanListHandler<Product>(Product.class));
+	}
+
+	@Override
+	public int add(Product product) throws SQLException {
+		String sql = "insert  into  product VALUES(?,?,?,?,?,?,?,?,?,?)  ";
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+
+		return qr.update(sql, product.getPid(), product.getPname(),
+				product.getMarket_price(), product.getShop_price(),
+				product.getPimage(), product.getPdate(), product.getIs_hot(),
+				product.getPdesc(), product.getPflag(), product.getCid());
+	}
+
+	@Override
+	public int getCount() throws SQLException {
+		String sql = "select  count(*)  from  product   ";
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		Long count = (Long) qr.query(sql, new ScalarHandler());
+		return count.intValue();
+	}
+
+	@Override
+	public List<Product> getAllProducts(int index, int currentCount,
+			Product product) throws SQLException {
+
+		List<String> list = new ArrayList<String>();
+		
+		
+		StringBuilder sb = new StringBuilder(
+				"select * from product where 1=1 ");
+		if (product.getPname() != null
+				&& product.getPname().trim().length() > 0) {
+			sb.append("  and pname like  ?   ");
+			list.add("%" + product.getPname().trim() + "%");
+		}
+		sb.append("        limit  ?,?");
+		
+		String  name="%"+product.getPname()+"%";
+		
+		
+		System.out.println(sb.toString());
+		QueryRunner qr = new QueryRunner(DataSourceUtils.getDataSource());
+		if (list.size() > 0) {
+
+			return qr.query(sb.toString(), new BeanListHandler<Product>(
+					Product.class), list.toArray(),index, currentCount);
+		} else {
+
+			return qr.query(sb.toString(), new BeanListHandler<Product>(
+					Product.class), index, currentCount);
+		}
+
 	}
 
 }

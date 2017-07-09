@@ -1,9 +1,14 @@
 package cn.itcast.shop.web.servlet;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,6 +41,7 @@ import cn.itcast.shop.service.ProductService;
 import cn.itcast.shop.service.impl.CategoryServiceImpl;
 import cn.itcast.shop.service.impl.OrderServiceImpl;
 import cn.itcast.shop.service.impl.ProductServiceImpl;
+import cn.itcast.shop.utils.CommonUtils;
 import cn.itcast.shop.utils.PaymentUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -38,6 +49,60 @@ import com.alibaba.fastjson.JSON;
 public class ProductServlet extends BaseServlet {
 
 	private Logger log = LogManager.getLogger(ProductServlet.class);
+
+	public void add(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		ProductService service = new ProductServiceImpl();
+		Product product = new Product();
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			// 创建磁盘文件项工厂
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			// 创建文件上传核心对象
+			ServletFileUpload fileUpload = new ServletFileUpload(factory);
+			// 解析request获得文件项集合
+
+			List<FileItem> parseRequest = fileUpload.parseRequest(request);
+			for (FileItem item : parseRequest) {
+				// 判断是否普通表单项目
+				boolean formField = item.isFormField();
+				if (formField) {
+					// 封装实体类对象
+					String fieldName = item.getFieldName();
+					String fieldValue = item.getString("UTF-8");
+					map.put(fieldName, fieldValue);
+				} else {
+					String fieldName = item.getName();
+					String path = this.getServletContext()
+							.getRealPath("upload");
+					InputStream in = item.getInputStream();
+					OutputStream out = new FileOutputStream(path + "/"
+							+ fieldName);
+					IOUtils.copy(in, out);
+					in.close();
+					out.close();
+					item.delete();
+					map.put("pimage", "upload/" + fieldName);
+				}
+			}
+		} catch (FileUploadException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			BeanUtils.populate(product, map);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		// 设置uid
+		product.setPid(CommonUtils.getUUID());
+		// 设置添加日期
+		product.setPdate(new Date());
+		product.setPflag(0L);
+		if(service.add(product)>0){
+			//重定向到list
+		}
+	}
 
 	// 准备调用热门商品和最新商品
 	public void index(HttpServletRequest request, HttpServletResponse response)

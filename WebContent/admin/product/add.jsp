@@ -9,22 +9,28 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath }/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript">
+	var context = "";
 	$(
 			function() {
+
 				$
 						.post(
-								'${pageContext.request.contextPath}/category?method=getAll',
-								'', function(data) {
-									alert(data);
-								}, "json");
+								"${pageContext.request.contextPath}/category?method=getAll",
+								function(data) {
+									for (var i = 0, len = data.length; i < len; i++) {
+										context += "<option value="+data[i].cid+">"
+												+ data[i].cname + "</option>";
+									}
+									$("#cui").html(context);
+								}, "json")
 			})
 </script>
 
 <body>
-	<form id="userAction_save_do" name="Form1"
-		action="${pageContext.request.contextPath}/adminProduct_save.action"
-		method="post" enctype="multipart/form-data">
-		&nbsp;
+	<form 
+		action="${pageContext.request.contextPath}/product?method=add" method="post"
+		enctype="multipart/form-data">
+		
 		<table cellSpacing="1" cellPadding="5" width="100%" align="center"
 			bgColor="#eeeeee" style="border: 1px solid #8ba7e3" border="0">
 			<tr>
@@ -66,7 +72,7 @@
 				<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">
 					所属分类：</td>
 				<td class="ta_01" bgColor="#ffffff" colspan="3"><select
-					name="cid" id="cid">
+					name="cid" id="cui">
 
 				</select></td>
 			</tr>

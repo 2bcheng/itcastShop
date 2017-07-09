@@ -66,41 +66,9 @@ public class OrderServlet extends BaseServlet {
 
 		log.info("当前servlet:myOrders,用来查询用户所属的订单" + orderList);
 		// 订单不为空
-		// if (orderList != null) {
-		// // 循环迭代订单根据订单号获取所有订单项
-		// for (Orders order : orderList) {
-		// // 获取数据库中,属于当前订单的所有订单项目
-		// List<Map<String, Object>> orderItems = service
-		// .findOrderItemsByOid(order.getOid());
-		// log.info("当前servlet:myOrders,用来查询用户所属的订单的订单项目" + orderItems);
-		// for (Map<String, Object> map : orderItems) {
-		// try {
-		// // 从map中读取数据封装到orderItem对象中
-		// Orderitem orderitem = new Orderitem();
-		// BeanUtils.populate(orderitem, map);
-		// log.info("当前servlet:myOrders,用来封装用户所属订单的订单项目"
-		// + orderItems);
-		// // 从map中读取数据封装到product对象中
-		// Product p = new Product();
-		// BeanUtils.populate(p, map);
-		// log.info("当前servlet:myOrders,用来查询用户所属的订单的订单商品" + p);
-		// // 添加商品到购物项目
-		// orderitem.setProduct(p);
-		// // 添加购物项到订单
-		// order.getOrderitems().add(orderitem);
-		// } catch (IllegalAccessException e) {
-		// e.printStackTrace();
-		// } catch (InvocationTargetException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// }
-		// }
-		
-		// 分页订单不为空
-		if (pageBean != null) {
+		if (orderList != null) {
 			// 循环迭代订单根据订单号获取所有订单项
-			for (Orders order : pageBean.getList()) {
+			for (Orders order : orderList) {
 				// 获取数据库中,属于当前订单的所有订单项目
 				List<Map<String, Object>> orderItems = service
 						.findOrderItemsByOid(order.getOid());
@@ -128,6 +96,38 @@ public class OrderServlet extends BaseServlet {
 				}
 			}
 		}
+		
+//		// 分页订单不为空
+//		if (pageBean != null) {
+//			// 循环迭代订单根据订单号获取所有订单项
+//			for (Orders order : pageBean.getList()) {
+//				// 获取数据库中,属于当前订单的所有订单项目
+//				List<Map<String, Object>> orderItems = service
+//						.findOrderItemsByOid(order.getOid());
+//				log.info("当前servlet:myOrders,用来查询用户所属的订单的订单项目" + orderItems);
+//				for (Map<String, Object> map : orderItems) {
+//					try {
+//						// 从map中读取数据封装到orderItem对象中
+//						Orderitem orderitem = new Orderitem();
+//						BeanUtils.populate(orderitem, map);
+//						log.info("当前servlet:myOrders,用来封装用户所属订单的订单项目"
+//								+ orderItems);
+//						// 从map中读取数据封装到product对象中
+//						Product p = new Product();
+//						BeanUtils.populate(p, map);
+//						log.info("当前servlet:myOrders,用来查询用户所属的订单的订单商品" + p);
+//						// 添加商品到购物项目
+//						orderitem.setProduct(p);
+//						// 添加购物项到订单
+//						order.getOrderitems().add(orderitem);
+//					} catch (IllegalAccessException e) {
+//						e.printStackTrace();
+//					} catch (InvocationTargetException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		}
 		log.info("展示的数据" + orderList);
 		request.setAttribute("pageBean", pageBean);
 		log.info("分页bean的数据" + pageBean);
