@@ -20,6 +20,7 @@ import org.apache.commons.beanutils.Converter;
 import cn.itcast.shop.domain.User;
 import cn.itcast.shop.service.UserService;
 import cn.itcast.shop.service.impl.UserServiceImpl;
+import cn.itcast.shop.utils.BeanFactory;
 import cn.itcast.shop.utils.CommonUtils;
 import cn.itcast.shop.utils.MD5Utils;
 import cn.itcast.shop.utils.MailUtils;
@@ -39,7 +40,7 @@ public class UserServlet extends BaseServlet {
 		String pwd = request.getParameter("password");
 		// 密码加密
 		String password = MD5Utils.md5(pwd);
-		UserService userService = new UserServiceImpl();
+		UserService userService =(UserService) BeanFactory.getBean("userService");
 		User user = null;
 		// 登录,获取当前对象
 		user = userService.login(username, password);
